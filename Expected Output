@@ -1,0 +1,33 @@
+Graph structure:
+Vertex{A} -> Vertex{B}(4.0) Vertex{C}(2.0) 
+Vertex{B} -> Vertex{C}(1.0) Vertex{D}(5.0) 
+Vertex{C} -> Vertex{D}(8.0) Vertex{E}(10.0) 
+Vertex{D} -> Vertex{E}(2.0) Vertex{F}(6.0) 
+Vertex{E} -> Vertex{F}(3.0) 
+Vertex{F} -> 
+
+--- BFS Search ---
+BFS visited vertices:
+A B C D E F 
+Distance to F (number of edges): 3.0
+Path to F (by edges): [A, B, D, F]
+
+--- Dijkstra Search ---
+Shortest distances from A:
+  To A: 0.0
+  To B: 4.0
+  To C: 2.0
+  To D: 9.0
+  To E: 11.0
+  To F: 14.0
+Shortest path from A to F (by weight): [A, B, D, E, F]
+Total weight: 14.0
+
+--- Undirected Graph Example ---
+Vertex{X} -> Vertex{Y}(3.0) Vertex{Z}(5.0) 
+Vertex{Y} -> Vertex{X}(3.0) Vertex{Z}(2.0) Vertex{W}(7.0) 
+Vertex{Z} -> Vertex{X}(5.0) Vertex{Y}(2.0) Vertex{W}(4.0) 
+Vertex{W} -> Vertex{Y}(7.0) Vertex{Z}(4.0) 
+
+Shortest path from X to W: [X, Y, Z, W]
+Total weight: 9.0
