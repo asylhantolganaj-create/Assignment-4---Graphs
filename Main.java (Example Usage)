@@ -1,0 +1,79 @@
+public class Main {
+    public static void main(String[] args) {
+        // Create a weighted graph
+        WeightedGraph<String> graph = new WeightedGraph<>();
+
+        // Add vertices
+        graph.addVertex("A");
+        graph.addVertex("B");
+        graph.addVertex("C");
+        graph.addVertex("D");
+        graph.addVertex("E");
+        graph.addVertex("F");
+
+        // Add edges (directed)
+        graph.addEdge("A", "B", 4.0);
+        graph.addEdge("A", "C", 2.0);
+        graph.addEdge("B", "C", 1.0);
+        graph.addEdge("B", "D", 5.0);
+        graph.addEdge("C", "D", 8.0);
+        graph.addEdge("C", "E", 10.0);
+        graph.addEdge("D", "E", 2.0);
+        graph.addEdge("D", "F", 6.0);
+        graph.addEdge("E", "F", 3.0);
+
+        // Print the graph
+        System.out.println("Graph structure:");
+        System.out.println(graph);
+
+        // BFS Example
+        System.out.println("\n--- BFS Search ---");
+        BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>();
+        bfs.search(graph, "A");
+
+        System.out.println("BFS visited vertices:");
+        for (Vertex<String> v : bfs.getVisited()) {
+            System.out.print(v.getData() + " ");
+        }
+        System.out.println();
+
+        System.out.println("Distance to F (number of edges): " + bfs.getDistanceTo("F", graph));
+        System.out.println("Path to F (by edges): " + bfs.getShortestPathByEdges("F", graph));
+
+        // Dijkstra Example
+        System.out.println("\n--- Dijkstra Search ---");
+        DijkstraSearch<String> dijkstra = new DijkstraSearch<>();
+        dijkstra.search(graph, "A");
+
+        System.out.println("Shortest distances from A:");
+        for (Vertex<String> v : graph.getAllVertices()) {
+            double dist = dijkstra.getDistanceTo(v.getData(), graph);
+            System.out.println("  To " + v.getData() + ": " + (dist == Double.POSITIVE_INFINITY ? "∞" : dist));
+        }
+
+        System.out.println("Shortest path from A to F (by weight): " + dijkstra.getShortestPathByWeight("F", graph));
+        System.out.println("Total weight: " + dijkstra.getDistanceTo("F", graph));
+
+        // Another example: Undirected graph
+        System.out.println("\n--- Undirected Graph Example ---");
+        WeightedGraph<String> undirectedGraph = new WeightedGraph<>();
+        undirectedGraph.addVertex("X");
+        undirectedGraph.addVertex("Y");
+        undirectedGraph.addVertex("Z");
+        undirectedGraph.addVertex("W");
+
+        undirectedGraph.addUndirectedEdge("X", "Y", 3.0);
+        undirectedGraph.addUndirectedEdge("X", "Z", 5.0);
+        undirectedGraph.addUndirectedEdge("Y", "Z", 2.0);
+        undirectedGraph.addUndirectedEdge("Y", "W", 7.0);
+        undirectedGraph.addUndirectedEdge("Z", "W", 4.0);
+
+        System.out.println(undirectedGraph);
+
+        DijkstraSearch<String> dijkstraUndirected = new DijkstraSearch<>();
+        dijkstraUndirected.search(undirectedGraph, "X");
+
+        System.out.println("Shortest path from X to W: " + dijkstraUndirected.getShortestPathByWeight("W", undirectedGraph));
+        System.out.println("Total weight: " + dijkstraUndirected.getDistanceTo("W", undirectedGraph));
+    }
+}
