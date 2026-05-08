@@ -1,0 +1,56 @@
+import java.util.*;
+
+public abstract class Search<V> {
+    protected Set<Vertex<V>> visited;
+    protected Map<Vertex<V>, Vertex<V>> parent;
+    protected Map<Vertex<V>, Double> distance;
+
+    public Search() {
+        this.visited = new HashSet<>();
+        this.parent = new HashMap<>();
+        this.distance = new HashMap<>();
+    }
+
+    public abstract void search(WeightedGraph<V> graph, V startData);
+
+    protected void initializeSearch(WeightedGraph<V> graph, V startData) {
+        visited.clear();
+        parent.clear();
+        distance.clear();
+
+        Vertex<V> start = graph.getVertex(startData);
+        if (start == null) return;
+
+        for (Vertex<V> vertex : graph.getAllVertices()) {
+            distance.put(vertex, Double.POSITIVE_INFINITY);
+        }
+        distance.put(start, 0.0);
+    }
+
+    public List<V> getPathTo(V targetData, WeightedGraph<V> graph) {
+        Vertex<V> target = graph.getVertex(targetData);
+        if (target == null || !parent.containsKey(target)) {
+            return null;
+        }
+
+        List<V> path = new ArrayList<>();
+        Vertex<V> current = target;
+
+        while (current != null) {
+            path.add(0, current.getData());
+            current = parent.get(current);
+        }
+
+        return path;
+    }
+
+    public double getDistanceTo(V targetData, WeightedGraph<V> graph) {
+        Vertex<V> target = graph.getVertex(targetData);
+        if (target == null) return Double.POSITIVE_INFINITY;
+        return distance.getOrDefault(target, Double.POSITIVE_INFINITY);
+    }
+
+    public Set<Vertex<V>> getVisited() {
+        return visited;
+    }
+}
